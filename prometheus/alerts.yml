@@ -1,0 +1,18 @@
+groups:
+  - name: devops_alerts
+    rules:
+      - alert: HostHighCpuLoad
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Host CPU load is above 80%"
+
+      - alert: NginxServiceDown
+        expr: nginx_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Nginx web server is down"

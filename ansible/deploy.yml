@@ -1,0 +1,48 @@
+- name: Deploy React App with Nginx
+  hosts: all
+  become: true
+  vars:
+    app_dir: "/var/www/react-app"
+
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure target directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Extract built React app to web root
+      unarchive:
+        src: "/tmp/react-build.tar.gz"
+        dest: "{{ app_dir }}"
+        remote_src: no
+
+    - name: Configure Nginx virtual host
+      copy:
+        dest: /etc/nginx/sites-available/default
+        content: |
+          server {
+              listen 80;
+              server_name _;
+
+              root /var/www/react-app;
+              index index.html;
+
+              location / {
+                  try_files $uri $uri/ /index.html;
+              }
+          }
+
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
