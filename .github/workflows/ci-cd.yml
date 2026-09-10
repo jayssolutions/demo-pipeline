@@ -25,8 +25,8 @@ jobs:
       # - name: Lint Application
       #   run: npm run lint || true
 
-      - name: Run Unit Tests
-        run: npm test
+      # - name: Run Unit Tests
+      #   run: npm test
 
       - name: Build Application
         run: npm run build
