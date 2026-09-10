@@ -5,7 +5,7 @@ terraform {
     bucket         = "my-devops-tf-state-bucket"
     key            = "devops-assessment/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-locks"
+    use_lockfile = true
     encrypt        = true
   }
 
