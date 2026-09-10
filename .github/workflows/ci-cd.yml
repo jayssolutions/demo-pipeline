@@ -18,6 +18,8 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
+        env:
+           NODE_ENV: development
         run: npm ci
 
       - name: Lint Application
