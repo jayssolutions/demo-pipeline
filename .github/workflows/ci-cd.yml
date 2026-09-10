@@ -22,8 +22,8 @@ jobs:
            NODE_ENV: development
         run: npm ci
 
-      - name: Lint Application
-        run: npm run lint || true
+      # - name: Lint Application
+      #   run: npm run lint || true
 
       - name: Run Unit Tests
         run: npm test
